@@ -1,0 +1,9 @@
+
+fedora:
+  copr:
+    - scottames/ghostty
+  packages:
+    - 'git'
+    - 'ghostty'
+    - 'chromium'
+  
