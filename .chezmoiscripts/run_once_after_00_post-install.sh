@@ -25,3 +25,9 @@ chsh $USER -s $(which zsh)
 
 
 echo $SHELL
+
+wget "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.zip"
+unzip ~/eza_x86_64-unknown-linux-gnu.zip > /dev/null
+rm ~/eza_x86_64-unknown-linux-gnu.zip
+mv ~/eza ~/.local/bin/eza
+

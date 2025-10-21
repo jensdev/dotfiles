@@ -1,6 +1,7 @@
 fedora:
   copr:
     - atim/starship
+    - jdxcode/mise
     - scottames/ghostty
   packages:
     - "git"
@@ -9,3 +10,4 @@ fedora:
     - "starship"
     - "ghostty"
     - "chromium"
+    - "mise"

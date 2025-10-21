@@ -10,12 +10,12 @@
 
 
 {{ range .fedora.copr -}}
-sudo dnf copr enable {{ . | quote }}
+sudo dnf copr enable {{ . | quote }} --assumeyes
 {{ end -}}
 
 
 {{ range .fedora.packages -}}
-sudo dnf install {{ . | quote }}
+sudo dnf install {{ . | quote }} --assumeyes
 {{ end -}}
 {{   end }}
 {{ end }}
