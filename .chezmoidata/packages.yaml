@@ -1,9 +1,10 @@
-
 fedora:
   copr:
+    - atim/starship
     - scottames/ghostty
   packages:
-    - 'git'
-    - 'ghostty'
-    - 'chromium'
-  
+    - "git"
+    - "zsh"
+    - "starship"
+    - "ghostty"
+    - "chromium"
