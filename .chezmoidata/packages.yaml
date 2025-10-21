@@ -5,6 +5,7 @@ fedora:
   packages:
     - "git"
     - "zsh"
+    - "zoxide"
     - "starship"
     - "ghostty"
     - "chromium"
