@@ -21,6 +21,7 @@ done
 printf "%.s=" $(seq 1 $(tput cols))
 echo
 echo "Setting up ZSH as the default shell:"
-chsh -s /usr/bin/zsh
+chsh $USER -s $(which zsh)
 
 
+echo $SHELL
