@@ -6,35 +6,6 @@
 {{   if eq .chezmoi.osRelease.id "debian" }}
 # Debian-specific code
 {{   else if eq .chezmoi.osRelease.id "fedora" }}
-# Fedora-specific code
-
-sudo dnf install fedora-workstation-repositories
-sudo dnf config-manager setopt google-chrome.enabled=1
-
-
-{{ range .fedora.copr -}}
-sudo dnf copr enable {{ . | quote }} --assumeyes
-{{ end -}}
-
-
-{{ range .fedora.packages -}}
-sudo dnf install {{ . | quote }} --assumeyes
-{{ end -}}
-
-sudo systemctl enable --now libvirtd
-sudo usermod -aG libvirt $(whoami)
-sudo usermod -aG kvm $(whoami)
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-dnf check-update
-
-{{ range .fedora.flathub -}}
-flatpak install flathub {{ . | quote }}
-{{ end -}}
-
-wget https://desktop.docker.com/linux/main/amd64/docker-desktop-x86_64.rpm
-sudo dnf install ./docker-desktop-x86_64.rpm --assumeyes
-rm ./docker-desktop-x86_64.rpm
-
+{{ include ".chezmoiscripts/run_onchange_install-packages-fedora.sh.tmpl" . }}
 {{   end }}
 {{ end }}

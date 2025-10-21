@@ -5,15 +5,19 @@ SAVEHIST=1000
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/jens/.zshrc'
+zstyle :compinstall filename "$HOME/.zshrc"
 
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(~/.local/bin/mise activate zsh)"
 
-alias ls="eza --icons=always --long"
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
+if command -v eza &> /dev/null; then
+    alias ls="eza --icons=always --long"
+fi
