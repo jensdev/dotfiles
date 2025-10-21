@@ -10,4 +10,12 @@ fedora:
     - "starship"
     - "ghostty"
     - "chromium"
+    - "google-chrome-stable"
     - "mise"
+    - "@virtualization"
+    - "code"
+  flathub:
+    - "com.slack.Slack"
+    - "com.spotify.Client"
+    - "rest.insomnia.Insomnia"
+    - "com.google.AndroidStudio"
