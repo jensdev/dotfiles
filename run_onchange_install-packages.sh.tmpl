@@ -7,5 +7,7 @@
 # Debian-specific code
 {{   else if eq .chezmoi.osRelease.id "fedora" }}
 {{ include ".chezmoiscripts/run_onchange_install-packages-fedora.sh.tmpl" . }}
+{{   else if eq .chezmoi.osRelease.id "linuxmint" }}
+{{ include ".chezmoiscripts/run_onchange_install-packages-linuxmint.sh.tmpl" . }}
 {{   end }}
 {{ end }}
