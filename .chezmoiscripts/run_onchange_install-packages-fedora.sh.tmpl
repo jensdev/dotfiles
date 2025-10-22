@@ -21,7 +21,7 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf check-update
 
 {{ range .fedora.flathub -}}
-flatpak install flathub {{ . | quote }}
+flatpak install flathub {{ . | quote }} --assumeyes
 {{ end -}}
 
 if ! rpm -q docker-desktop > /dev/null; then

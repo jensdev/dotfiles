@@ -7,6 +7,8 @@ fedora:
     - "git"
     - "zsh"
     - "zoxide"
+    - "fzf"
+    - "ripgrep"
     - "starship"
     - "ghostty"
     - "chromium"

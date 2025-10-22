@@ -3,7 +3,7 @@ printf "%.s=" $(seq 1 $(tput cols))
 echo
 echo "Installing nerd fonts and symbols:"
 echo
-for font in NerdFontsSymbolsOnly CascadiaCode CodeNewRoman FiraCode JetBrainsMono Meslo SourceCodePro UbuntuMono VictorMono
+for font in NerdFontsSymbolsOnly CascadiaCode CaskaydiaMono CodeNewRoman FiraCode JetBrainsMono Meslo SourceCodePro UbuntuMono VictorMono
 do
     if [ ! -d "$HOME/.local/share/fonts/$font" ] ; then
         wget "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip" --directory-prefix ~/.local/share/fonts

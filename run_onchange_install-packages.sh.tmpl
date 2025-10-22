@@ -1,11 +1,13 @@
 #!/bin/bash
 
+set -euo pipefail
+
 {{ if eq .chezmoi.os "darwin" }}
 # macOS-specific code
 {{ else if eq .chezmoi.os "linux" }}
 {{   if eq .chezmoi.osRelease.id "debian" }}
 # Debian-specific code
 {{   else if eq .chezmoi.osRelease.id "fedora" }}
-{{ include ".chezmoiscripts/run_onchange_install-packages-fedora.sh.tmpl" . }}
+{{ includeTemplate ".chezmoiscripts/run_onchange_install-packages-fedora.sh.tmpl" .  }}
 {{   end }}
 {{ end }}
