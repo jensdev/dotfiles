@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Add PPAs
+{{ range .linuxmint.ppa -}}
+if ! grep -q "^deb .*{{ . }}" /etc/apt/sources.list /etc/apt/sources.list.d/*; then
+  sudo add-apt-repository {{ . | quote }} -y
+fi
+{{ end -}}
+
+# Add Google Chrome repo
+if [ ! -f /etc/apt/sources.list.d/google-chrome.list ]; then
+  curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/google-chrome.gpg
+  sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list'
+fi
+
+# Add VS Code repo
+if [ ! -f /etc/apt/sources.list.d/vscode.list ]; then
+  wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+  sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+  sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+  rm -f packages.microsoft.gpg
+fi
+
+sudo apt-get update
+
+# Install packages
+{{ range .linuxmint.packages -}}
+sudo apt-get install {{ . | quote }} -y
+{{ end -}}
+
+# Install script-based packages
+{{ if has "starship" .linuxmint.script }}
+if ! command -v starship &> /dev/null
+then
+    curl -sS https://starship.rs/install.sh | sh
+fi
+{{ end }}
+
+{{ if has "mise" .linuxmint.script }}
+if ! command -v mise &> /dev/null
+then
+    curl https://mise.run | sh
+fi
+{{ end }}
+
+{{ if has "ghostty" .linuxmint.script }}
+if ! command -v ghostty &> /dev/null
+then
+    sudo apt-get install -y libgtk-4-dev libadwaita-1-dev git
+    if ! command -v zig &> /dev/null
+    then
+      sudo snap install zig --classic --beta
+    fi
+    git clone https://github.com/ghostty-org/ghostty.git /tmp/ghostty
+    cd /tmp/ghostty
+    zig build -p $HOME/.local -Doptimize=ReleaseFast
+    sudo update-desktop-database
+    cd -
+    rm -rf /tmp/ghostty
+fi
+{{ end }}
+
+# Install Flathub packages
+{{ range .common.flathub -}}
+flatpak install flathub {{ . | quote }} -y
+{{ end -}}

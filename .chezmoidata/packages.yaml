@@ -1,3 +1,10 @@
+common:
+  flathub:
+    - "com.slack.Slack"
+    - "com.spotify.Client"
+    - "rest.insomnia.Insomnia"
+    - "com.google.AndroidStudio"
+
 fedora:
   copr:
     - atim/starship
@@ -14,8 +21,25 @@ fedora:
     - "mise"
     - "@virtualization"
     - "code"
-  flathub:
-    - "com.slack.Slack"
-    - "com.spotify.Client"
-    - "rest.insomnia.Insomnia"
-    - "com.google.AndroidStudio"
+
+linuxmint:
+  ppa:
+    - "ppa:longsleep/golang-backports" # For mise
+  packages:
+    - "git"
+    - "zsh"
+    - "zoxide"
+    - "chromium-browser"
+    - "google-chrome-stable"
+    - "golang-go" # For mise
+    - "build-essential" # For mise
+    - "qemu-kvm"
+    - "libvirt-daemon-system"
+    - "libvirt-clients"
+    - "bridge-utils"
+    - "virt-manager"
+    - "code"
+  script:
+    - "starship" # install with curl
+    - "mise" # install with curl
+    - "ghostty" # install from source
