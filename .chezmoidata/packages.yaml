@@ -9,6 +9,7 @@ fedora:
     - "zoxide"
     - "fzf"
     - "ripgrep"
+    - "fastfetch"
     - "starship"
     - "ghostty"
     - "chromium"

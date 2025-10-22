@@ -24,10 +24,41 @@ echo "Setting up ZSH as the default shell:"
 chsh $USER -s $(which zsh)
 
 
+# Install Oh My Zsh
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    log_info "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    echo "Oh My Zsh installed"
+else
+    echo "Oh My Zsh already installed"
+fi
+
+# Install zsh plugins
+log_info "Installing zsh plugins..."
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+    echo "zsh-autosuggestions installed"
+else
+    echo "zsh-autosuggestions already installed"
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/fast-syntax-highlighting" ]; then
+    git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git \
+      "$ZSH_CUSTOM/plugins/fast-syntax-highlighting"
+    echo "fast-syntax-highlighting installed"
+else
+    echo "fast-syntax-highlighting already installed"
+fi
+
+
+
 echo $SHELL
 
 wget "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.zip"
 unzip ~/eza_x86_64-unknown-linux-gnu.zip > /dev/null
 rm ~/eza_x86_64-unknown-linux-gnu.zip
 mv ~/eza ~/.local/bin/eza
+
 
