@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Functie om te controleren of een commando bestaat
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# Installeer yay indien niet aanwezig
+if ! command_exists yay; then
+  echo "yay niet gevonden. Bezig met installeren van yay..."
+  sudo pacman -S --needed --noconfirm git base-devel
+  git clone https://aur.archlinux.org/yay.git /tmp/yay
+  (cd /tmp/yay && makepkg -si --noconfirm)
+  rm -rf /tmp/yay
+fi
+
+# Installeer pakketten uit de officiële repositories
+{{- if .packages.cachyos.packages }}
+echo "Bezig met installeren van pakketten uit de officiële repositories..."
+yay -S --needed --noconfirm {{ .packages.cachyos.packages | join " " }}
+{{- end }}
+
+# Installeer AUR-pakketten
+{{- if .packages.cachyos.aur }}
+echo "Bezig met installeren van AUR-pakketten..."
+yay -S --needed --noconfirm {{ .packages.cachyos.aur | join " " }}
+{{- end }}
+
+# Post-installatie configuratie voor virtualisatie
+{{- if has "libvirt" .packages.cachyos.packages }}
+echo "Bezig met configureren van virtualisatie..."
+echo "Voeg gebruiker toe aan de libvirt groep..."
+sudo usermod -a -G libvirt $(whoami)
+
+echo "Inschakelen en starten van de libvirtd service..."
+sudo systemctl enable libvirtd.service
+sudo systemctl start libvirtd.service
+{{- end }}
+
+echo "CachyOS pakketinstallatie voltooid."
