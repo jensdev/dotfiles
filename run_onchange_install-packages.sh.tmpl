@@ -9,5 +9,7 @@ set -euo pipefail
 # Debian-specific code
 {{   else if eq .chezmoi.osRelease.id "fedora" }}
 {{ includeTemplate ".chezmoiscripts/run_onchange_install-packages-fedora.sh.tmpl" .  }}
+{{   else if eq .chezmoi.osRelease.id "cachyos" }}
+{{ includeTemplate ".chezmoiscripts/run_onchange_install-packages-cachyos.sh.tmpl" . }}
 {{   end }}
 {{ end }}
