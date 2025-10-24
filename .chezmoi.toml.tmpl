@@ -1,6 +1,5 @@
 [hooks.read-source-state.pre]
-command = "echo"
-args = ["pre-read-source-state-hook"]
+    command = "{{ .chezmoi.homeDir }}/.local/share/chezmoi/.install-1password.sh"
 
 [hooks.apply.pre]
     command = "echo"
