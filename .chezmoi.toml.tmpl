@@ -1,0 +1,19 @@
+[hooks.read-source-state.pre]
+command = "echo"
+args = ["pre-read-source-state-hook"]
+
+[hooks.apply.pre]
+    command = "echo"
+    args = ["pre-apply-hook"]
+
+[hooks.apply.post]
+    command = "echo"
+    args = ["post-apply-hook"]
+
+[hooks.init.pre]
+    command = "echo"
+    args = ["pre-init-hook"]
+
+[hooks.init.post]
+    command = "echo"
+    args = ["post-init-hook"]
