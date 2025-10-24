@@ -1,2 +1,6 @@
 [hooks.read-source-state.pre]
     command = "~/.local/share/chezmoi/.install-1password.sh"
+
+[hooks.read-source-state.pre]
+command = "echo"
+args = ["pre-read-source-state-hook"]
