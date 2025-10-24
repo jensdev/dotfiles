@@ -1,8 +1,4 @@
 [hooks.apply.pre]
-    command = "echo"
-    args = ["pre-apply-hook"]
-
-[hooks.apply.pre]
     command = "{{ .chezmoi.homeDir }}/.local/share/chezmoi/.install-1password.sh"
 
 [hooks.apply.post]
