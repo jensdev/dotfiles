@@ -1,5 +1,5 @@
 [hooks.apply.pre]
-    command = "{{ .chezmoi.homeDir }}/.local/share/chezmoi/.install-1password.sh"
+    command = "~/.local/share/chezmoi/.install-1password.sh"
 
 [hooks.apply.post]
     command = "echo"
@@ -10,4 +10,4 @@
     args = ["pre-init-hook"]
 
 [hooks.init.post]
-    command = "{{ .chezmoi.homeDir }}/.local/share/chezmoi/.install-1password.sh"
+    command = "~/.local/share/chezmoi/.install-1password.sh"
