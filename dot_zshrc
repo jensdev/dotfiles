@@ -3,6 +3,22 @@
 
 # Path to your Oh My Zsh installation.
 # export EDITOR=code
+
+
+zi() {
+  cd "$(zoxide query -i)"
+}
+
+zd() {
+  if [ $# -eq 0 ]; then
+    builtin cd ~ && return
+  elif [ -d "$1" ]; then
+    builtin cd "$1"
+  else
+    z "$@" && printf "\U000F17A9 " && pwd
+  fi
+}
+
 export ZSH="$HOME/.oh-my-zsh"
 
 alias c='clear'

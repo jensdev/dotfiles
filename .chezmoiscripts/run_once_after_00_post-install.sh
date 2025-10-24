@@ -62,3 +62,6 @@ rm ~/eza_x86_64-unknown-linux-gnu.zip
 mv ~/eza ~/.local/bin/eza
 
 
+ls ~/.local/bin
+
+
