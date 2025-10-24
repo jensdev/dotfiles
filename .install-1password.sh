@@ -26,4 +26,4 @@ fi
 # Install the CLI and Desktop App
 sudo dnf install -y 1password-cli 1password
 
-echo "1Password CLI and Desktop App installed successfully."
+echo "1Password CLI and Desktop App installed successfully. "
