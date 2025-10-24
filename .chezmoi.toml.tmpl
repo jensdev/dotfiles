@@ -1,5 +1,6 @@
 [hooks.apply.pre]
-    command = "~/.local/share/chezmoi/.install-1password.sh"
+    command = "echo"
+    args = ["pre-apply-hook"]
 
 [hooks.apply.post]
     command = "echo"
@@ -10,7 +11,8 @@
     args = ["pre-init-hook"]
 
 [hooks.init.post]
-    command = "~/.local/share/chezmoi/.install-1password.sh"
+    command = "echo"
+    args = ["post-init-hook"]
 
 [hooks.read-source-state.pre]
     command = ".local/share/chezmoi/.install-password-manager.sh"
