@@ -1,0 +1,13 @@
+#vlaanderen account
+Host bitbucket.org
+  HostName bitbucket.org
+  User git
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_vlaanderen
+
+#default account
+Host bitbucket.org-craftzing
+  HostName bitbucket.org
+  User git
+  AddKeysToAgent yes
+  IdentityFile ~/.ssh/id_ed25519
