@@ -5,6 +5,8 @@ fedora:
     - scottames/ghostty
   packages:
     - "git"
+    - "neovim"
+    - "python3-neovim"
     - "zsh"
     - "zoxide"
     - "fzf"
@@ -22,3 +24,4 @@ fedora:
     - "com.spotify.Client"
     - "rest.insomnia.Insomnia"
     - "com.google.AndroidStudio"
+    - "io.podman_desktop.PodmanDesktop"
