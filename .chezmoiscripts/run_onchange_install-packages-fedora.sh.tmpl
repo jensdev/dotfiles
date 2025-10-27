@@ -8,12 +8,18 @@ sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linu
 
 
 {{ range .fedora.copr -}}
-sudo dnf copr enable {{ . | quote }} --assumeyes
+{{   $repo_filename := printf "_copr_%s.repo" (. | replace "/" "-") }}
+{{   $repo_path := joinPath "/etc/yum.repos.d" $repo_filename }}
+if [ ! -f {{ $repo_path | quote }} ]; then
+    sudo dnf copr enable {{ . | quote }} --assumeyes
+fi
 {{ end -}}
 
 
 {{ range .fedora.packages -}}
-sudo dnf install {{ . | quote }} --assumeyes
+if ! rpm -q {{ . | quote }} >/dev/null 2>&1; then
+    sudo dnf install -y {{ . | quote }}
+fi
 {{ end -}}
 
 sudo systemctl enable --now libvirtd
@@ -24,7 +30,9 @@ echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com
 dnf check-update
 
 {{ range .fedora.flathub -}}
-flatpak install flathub {{ . | quote }} --assumeyes
+if ! flatpak info {{ . | quote }} >/dev/null 2>&1; then
+    flatpak install flathub {{ . | quote }} --assumeyes
+fi
 {{ end -}}
 
 sudo usermod -aG docker $USER
