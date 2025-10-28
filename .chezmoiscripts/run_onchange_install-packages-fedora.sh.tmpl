@@ -43,10 +43,7 @@ sudo systemctl enable --now docker
 ANDROID_STUDIO_URL="https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2025.1.4.8/android-studio-2025.1.4.8-linux.tar.gz"
 INSTALL_DIR="/opt/android-studio"
 SYMLINK_DIR="/usr/local/bin"
-DESKTOP_FILE_DIR="/usr/share/applications"
 DOWNLOAD_DIR=$(mktemp -d)
-
-
 
 # Check if Android Studio is already installed
 if [ -d "$INSTALL_DIR" ]; then
@@ -62,20 +59,6 @@ sudo tar -xzf "${DOWNLOAD_DIR}/android-studio.tar.gz" -C "$INSTALL_DIR" --strip-
 
 echo "Creating symlink..."
 sudo ln  -sf "${INSTALL_DIR}/bin/studio.sh" "${SYMLINK_DIR}/android-studio"
-
-echo "Creating desktop entry..."
-cat <<EOF > "${DESKTOP_FILE_DIR}/android-studio.desktop"
-[Desktop Entry]
-Version=1.0
-Type=Application
-Name=Android Studio
-Icon=${INSTALL_DIR}/bin/studio.svg
-Exec="${INSTALL_DIR}/bin/studio.sh" %f
-Comment=The official IDE for Android app development
-Categories=Development;IDE;
-Terminal=false
-StartupWMClass=jetbrains-studio
-EOF
 
 echo "Cleaning up..."
 rm -rf "$DOWNLOAD_DIR"
