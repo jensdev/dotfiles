@@ -46,11 +46,7 @@ SYMLINK_DIR="/usr/local/bin"
 DESKTOP_FILE_DIR="/usr/share/applications"
 DOWNLOAD_DIR=$(mktemp -d)
 
-# Ensure the script is run as root
-if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root"
-  exit 1
-fi
+
 
 # Check if Android Studio is already installed
 if [ -d "$INSTALL_DIR" ]; then
