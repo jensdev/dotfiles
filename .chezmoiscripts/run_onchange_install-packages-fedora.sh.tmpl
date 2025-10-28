@@ -58,8 +58,8 @@ echo "Downloading Android Studio..."
 wget -q --show-progress -O "${DOWNLOAD_DIR}/android-studio.tar.gz" "$ANDROID_STUDIO_URL"
 
 echo "Installing Android Studio to $INSTALL_DIR..."
-mkdir -p "$INSTALL_DIR"
-tar -xzf "${DOWNLOAD_DIR}/android-studio.tar.gz" -C "$INSTALL_DIR" --strip-components=1
+sudo mkdir -p "$INSTALL_DIR"
+sudo tar -xzf "${DOWNLOAD_DIR}/android-studio.tar.gz" -C "$INSTALL_DIR" --strip-components=1
 
 echo "Creating symlink..."
 ln -sf "${INSTALL_DIR}/bin/studio.sh" "${SYMLINK_DIR}/android-studio"
