@@ -28,5 +28,4 @@ fedora:
     - "com.slack.Slack"
     - "com.spotify.Client"
     - "rest.insomnia.Insomnia"
-    - "com.google.AndroidStudio"
     - "io.podman_desktop.PodmanDesktop"
