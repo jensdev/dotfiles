@@ -51,8 +51,7 @@ DOWNLOAD_DIR=$(mktemp -d)
 # Check if Android Studio is already installed
 if [ -d "$INSTALL_DIR" ]; then
   echo "Android Studio is already installed in $INSTALL_DIR. Skipping installation."
-  exit 0
-fi
+else
 
 echo "Downloading Android Studio..."
 wget -q --show-progress -O "${DOWNLOAD_DIR}/android-studio.tar.gz" "$ANDROID_STUDIO_URL"
@@ -82,3 +81,4 @@ echo "Cleaning up..."
 rm -rf "$DOWNLOAD_DIR"
 
 echo "Android Studio installation complete."
+fi
