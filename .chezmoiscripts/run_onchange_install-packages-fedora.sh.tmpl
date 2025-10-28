@@ -62,7 +62,7 @@ sudo mkdir -p "$INSTALL_DIR"
 sudo tar -xzf "${DOWNLOAD_DIR}/android-studio.tar.gz" -C "$INSTALL_DIR" --strip-components=1
 
 echo "Creating symlink..."
-ln -sf "${INSTALL_DIR}/bin/studio.sh" "${SYMLINK_DIR}/android-studio"
+sudo ln  -sf "${INSTALL_DIR}/bin/studio.sh" "${SYMLINK_DIR}/android-studio"
 
 echo "Creating desktop entry..."
 cat <<EOF > "${DESKTOP_FILE_DIR}/android-studio.desktop"
