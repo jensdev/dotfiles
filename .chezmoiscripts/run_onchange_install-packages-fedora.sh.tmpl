@@ -38,3 +38,6 @@ fi
 
 sudo usermod -aG docker $USER
 sudo systemctl enable --now docker
+
+echo "Installing Android Studio..."
+sudo {{ joinPath .chezmoi.sourceDir "dot_local/share/chezmoi/install-android-studio.sh" | quote }}
