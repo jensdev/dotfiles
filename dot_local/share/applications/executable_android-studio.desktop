@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Android Studio
+Icon=/opt/android-studio/bin/studio.svg
+Exec=/opt/android-studio/bin/studio %f
+Comment=The official IDE for Android app development
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-studio
