@@ -78,4 +78,4 @@ fi
 
 
 eval "$(op completion zsh)"; compdef _op op
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(/usr/bin/mise activate zsh)"

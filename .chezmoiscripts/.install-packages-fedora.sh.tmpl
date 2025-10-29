@@ -131,5 +131,5 @@ else
 fi
 
 chsh $USER -s $(which zsh)
-sudo lchsh -s $(which zsh)
-cp ~/.local/share/dot_zshrc ~/.zshrc
+sudo lchsh $USER $(which zsh)
+cp ~/.local/share/chezmoi/dot_zshrc ~/.zshrc
