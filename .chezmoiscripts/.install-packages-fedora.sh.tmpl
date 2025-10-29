@@ -19,9 +19,8 @@ do
     fi
 done
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm --assumeyes
-sudo dnf group upgrade core
+sudo dnf group upgrade core --assumeyes
 
-sudo dnf group upgrade core  --assumeyes
 sudo dnf4 group install core --assumeyes
 
 sudo dnf -y update  --assumeyes
