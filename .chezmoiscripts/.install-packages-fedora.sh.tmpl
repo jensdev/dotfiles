@@ -33,8 +33,8 @@ sudo dnf config-manager setopt google-chrome.enabled=1
 sudo dnf -y install dnf-plugins-core --assumeyes
 sudo dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
 
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+# sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+# echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
 dnf check-update
 
 
@@ -42,6 +42,7 @@ dnf check-update
 {{   $repo_filename := printf "_copr_%s.repo" (. | replace "/" "-") }}
 {{   $repo_path := joinPath "/etc/yum.repos.d" $repo_filename }}
 if [ ! -f {{ $repo_path | quote }} ]; then
+    sudo rm $repo_path
     sudo dnf copr enable {{ . | quote }} --assumeyes
 fi
 {{ end -}}
