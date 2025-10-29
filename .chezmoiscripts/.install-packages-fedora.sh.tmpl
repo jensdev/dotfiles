@@ -39,12 +39,10 @@ dnf check-update
 
 
 {{ range .fedora.copr -}}
-{{   $repo_filename := printf "_copr_%s.repo" (. | replace "/" "-") }}
-{{   $repo_path := joinPath "/etc/yum.repos.d" $repo_filename }}
-if [ ! -f {{ $repo_path | quote }} ]; then
-    sudo rm $repo_path
+
+ 
     sudo dnf copr enable {{ . | quote }} --assumeyes
-fi
+
 {{ end -}}
 
 
