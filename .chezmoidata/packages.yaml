@@ -10,6 +10,7 @@ fedora:
     - "zsh"
     - "zoxide"
     - "fzf"
+    - "fuse"
     - "ripgrep"
     - "fastfetch"
     - "starship"
@@ -29,3 +30,4 @@ fedora:
     - "com.spotify.Client"
     - "rest.insomnia.Insomnia"
     - "io.podman_desktop.PodmanDesktop"
+    - "it.mijorus.gearlever"
