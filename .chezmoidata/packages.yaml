@@ -19,7 +19,7 @@ fedora:
     - "google-chrome-stable"
     - "mise"
     - "@virtualization"
-    - "code"
+    # - "code"
     - "docker-ce" 
     - "docker-ce-cli" 
     - "containerd.io" 
