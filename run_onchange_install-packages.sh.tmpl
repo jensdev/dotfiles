@@ -5,6 +5,7 @@ echo Running on {{.chezmoi.osRelease.id}}
 {{ if eq .chezmoi.os "darwin" }}
 # macOS-specific code
 {{ else if eq .chezmoi.os "linux" }}
+    {{ includeTemplate ".chezmoiscripts/.install-packages-linux-shared.sh.tmpl" . }}
     {{ if eq .chezmoi.osRelease.id "ubuntu" }}
 
         {{ includeTemplate ".chezmoiscripts/.install-packages-ubuntu.sh.tmpl" .  }}
