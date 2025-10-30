@@ -1,3 +1,71 @@
 #!/bin/bash
 
-echo "No packages on Ubuntu"
+# Update and upgrade system
+sudo apt update
+sudo apt upgrade -y
+
+# Install prerequisites for adding repositories
+sudo apt install -y curl ca-certificates software-properties-common apt-transport-https gpg
+
+# --- Add repositories ---
+
+# Mise
+# https://mise.jdx.dev/installing-mise.html
+sudo install -dm 755 /etc/apt/keyrings
+wget -qO- https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg >/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=$(dpkg --print-architecture)] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list >/dev/null
+
+
+# Docker
+# https://docs.docker.com/engine/install/ubuntu/
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Visual Studio Code
+# https://code.visualstudio.com/docs/setup/linux
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -o root -g root -m 644 packages.microsoft.gpg /etc/apt/trusted.gpg.d/
+sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+rm -f packages.microsoft.gpg
+
+# Google Chrome
+# https://www.google.com/linuxrepositories/
+curl -fSsl https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg >> /dev/null
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+
+
+# Update after adding new repositories
+sudo apt update
+
+# --- Install packages ---
+{{ range .ubuntu.packages -}}
+if ! dpkg -l {{ . | quote }} >/dev/null 2>&1; then
+    sudo apt install -y {{ . | quote }}
+fi
+{{ end -}}
+
+# --- Post-installation ---
+
+# Virtualization
+sudo systemctl enable --now libvirtd
+sudo usermod -aG libvirt $(whoami)
+sudo usermod -aG kvm $(whoami)
+
+# Docker
+sudo usermod -aG docker $USER
+sudo systemctl enable --now docker
+
+# Flatpak
+sudo apt install -y flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+{{ range .ubuntu.flathub -}}
+if ! flatpak info {{ . | quote }} >/dev/null 2>&1; then
+    flatpak install flathub {{ . | quote }} --assumeyes
+fi
+{{ end -}}
