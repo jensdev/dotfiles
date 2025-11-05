@@ -32,6 +32,37 @@ fedora:
     - "io.podman_desktop.PodmanDesktop"
     - "it.mijorus.gearlever"
 
+kinoite:
+  rpm_ostree:
+    - "dnf-plugins-core"
+    - "git"
+    - "neovim"
+    - "python3-neovim"
+    - "zsh"
+    - "zoxide"
+    - "fzf"
+    - "fuse"
+    - "ripgrep"
+    - "fastfetch"
+    - "starship"
+    - "ghostty"
+    - "chromium"
+    - "google-chrome-stable"
+    - "mise"
+    - "@virtualization"
+    - "code"
+    - "docker-ce"
+    - "docker-ce-cli"
+    - "containerd.io"
+    - "docker-buildx-plugin"
+    - "docker-compose-plugin"
+  flathub:
+    - "com.slack.Slack"
+    - "com.spotify.Client"
+    - "rest.insomnia.Insomnia"
+    - "io.podman_desktop.PodmanDesktop"
+    - "it.mijorus.gearlever"
+
 ubuntu:
   packages:
     - "git"
