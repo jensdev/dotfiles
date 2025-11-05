@@ -1,0 +1,91 @@
+#!/bin/bash
+
+set -euo pipefail
+
+echo "⚙️ Configuring Fedora Kinoite..."
+
+# --- Repository Configuration ---
+# dnf is required for repository management.
+if ! command -v dnf &> /dev/null; then
+    echo "🚨 'dnf' command not found. It must be layered for repository management."
+    exit 1
+fi
+
+echo "🔧 Configuring external repositories..."
+
+# Docker CE Repo
+if [ ! -f /etc/yum.repos.d/docker-ce.repo ]; then
+    echo "Adding Docker CE repository..."
+    sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+fi
+
+# VS Code Repo
+if [ ! -f /etc/yum.repos.d/vscode.repo ]; then
+    echo "Adding VS Code repository..."
+    sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+    echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+fi
+
+# Google Chrome Repo (enable if present)
+if [ -f /etc/yum.repos.d/google-chrome.repo ]; then
+    sudo dnf config-manager --set-enabled google-chrome
+fi
+
+# COPR Repos
+{{ if .kinoite.copr -}}
+{{ range .kinoite.copr -}}
+repo_filename="_copr_{{ replace "/" "-" . }}.repo"
+if [ ! -f "/etc/yum.repos.d/$repo_filename" ]; then
+    echo "Enabling COPR repository: {{ . }}"
+    sudo dnf copr enable -y {{ . | quote }}
+fi
+{{ end -}}
+{{ end -}}
+
+# --- RPM-OSTree Package Installation ---
+echo "📦 Layering RPM packages with rpm-ostree..."
+{{ $packages := .kinoite.rpm_ostree -}}
+{{ if $packages -}}
+packages_to_install="{{ join " " $packages }}"
+echo "Attempting to layer the following packages: ${packages_to_install}"
+# Using "|| true" to prevent script exit if rpm-ostree finds no changes
+sudo rpm-ostree install ${packages_to_install} || true
+echo "rpm-ostree command finished. A reboot may be required to apply changes."
+{{ else -}}
+echo "No RPM packages defined for Kinoite."
+{{ end -}}
+
+
+# --- Flatpak Installation ---
+echo "📦 Installing Flatpak applications..."
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+{{ if .kinoite.flathub -}}
+{{ range .kinoite.flathub -}}
+if ! flatpak info {{ . | quote }} >/dev/null 2>&1; then
+    echo "Installing Flatpak: {{ . }}..."
+    flatpak install flathub {{ . | quote }} --assumeyes
+else
+    echo "Flatpak {{ . }} is already installed."
+fi
+{{ end -}}
+{{ end -}}
+
+# --- Post-install configurations ---
+echo "🔧 Applying post-install configurations..."
+
+# Configure user groups. This is safe to run even if the groups don't exist yet.
+echo "Configuring user groups for Docker and Virtualization..."
+sudo usermod -aG docker $USER 2>/dev/null || true
+sudo usermod -aG libvirt $(whoami) 2>/dev/null || true
+sudo usermod -aG kvm $(whoami) 2>/dev/null || true
+
+# Enable services. They will start on next boot if the packages were just layered.
+echo "Enabling services..."
+sudo systemctl enable docker 2>/dev/null || true
+sudo systemctl enable libvirtd 2>/dev/null || true
+
+echo ""
+echo "🎉 Kinoite configuration complete."
+echo "❗️ IMPORTANT: A system reboot is required for all layered packages and services to become available."
+echo ""
